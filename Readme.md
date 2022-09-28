@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Артем Демченко](https://up.htmlacademy.ru/javascript/27/user/2051453).
-* Наставник: `Неизвестно`.
+* Наставник: [Анасатсия Васинская](https://htmlacademy.ru/profile/vanastasiya).
 
 ---
 
