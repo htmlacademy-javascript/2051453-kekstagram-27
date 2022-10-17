@@ -84,9 +84,12 @@ function createInfo(number) {
 }
 
 function createData() {
+  const photos = [];
   for (let i = 1; i <= 25; i++) {
-    console.log(createInfo());
+    photos.push(createInfo(i));
   }
+
+  return photos;
 }
 
 console.log(createData())
