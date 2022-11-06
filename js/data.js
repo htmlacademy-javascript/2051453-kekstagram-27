@@ -67,8 +67,9 @@ function createInfo(number) {
   };
 }
 
+const photos = [];
+
 function createData() {
-  const photos = [];
   for (let i = 1; i <= 25; i++) {
     photos.push(createInfo(i));
   }
@@ -76,4 +77,6 @@ function createData() {
   return photos;
 }
 
-export {createData}
+createData();
+
+export {photos};

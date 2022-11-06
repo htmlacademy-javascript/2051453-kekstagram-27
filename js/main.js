@@ -1,1 +1,2 @@
-import { createData } from "./data.js";
+import './rendering.js';
+import './bigPhoto.js';
