@@ -7,15 +7,15 @@ const bigPicture = document.querySelector('.big-picture');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 const body = document.querySelector('body');
 
-// Функция удаления попапа
+// Событие удаления попапа
 
-const closePopup = (evt) => {
+const onPopupEscDown = (evt) => {
   if (evt.key === 'Escape') {
     bigPicture.classList.add('hidden');
     body.classList.remove('modal-open');
 
     // Выход из полной прослушки
-    document.removeEventListener('keydown', closePopup);
+    document.removeEventListener('keydown', onPopupEscDown);
   }
 };
 
@@ -57,7 +57,7 @@ const addPictureEvenHandler = (picture, pictureData) => {
     commentLoader.classList.add('hidden');
     document.body.classList.add('modal-open');
 
-    document.addEventListener('keydown', closePopup);
+    document.addEventListener('keydown', onPopupEscDown);
 
   });
 };

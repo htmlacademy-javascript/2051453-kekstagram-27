@@ -1,2 +1,2 @@
 import './rendering.js';
-import './bigPhoto.js';
+import './big-photo.js';
