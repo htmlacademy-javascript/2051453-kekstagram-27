@@ -17,3 +17,4 @@ function getRandomPositiveInteger(a, b) {
 }
 
 export {getRandomPositiveInteger};
+export {checkStringLength};
