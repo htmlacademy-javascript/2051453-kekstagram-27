@@ -17,14 +17,14 @@ const onPopupEscDown = (evt) => {
 
 // Функция открытия модального окна
 
-function openUserModal () {
+function openUserModal() {
   uploadBox.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscDown);
 }
 
 // Функция закрытия модального окна
 
-function closeUserModal () {
+function closeUserModal() {
   uploadBox.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscDown);
 }
@@ -42,7 +42,16 @@ closeModalUploadElement.addEventListener('click', () => {
 });
 
 closeModalUploadElement.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape' && uploadTextArea.activeElement) {
+  if (evt.key === 'Escape') {
     closeUserModal();
   }
 });
+
+// Событие поле ввода при фокусе
+
+function block() {
+  document.removeEventListener('keydown', onPopupEscDown);
+}
+
+const gang = function () { uploadTextArea.addEventListener('focus', block) };
+uploadTextArea.removeEventListener('blur', gang);
