@@ -1,7 +1,7 @@
 // Проверка длины строки
 
 function checkStringLength(string) {
-  return string.length <= 3;
+  return string.length <= 140;
 }
 
 // Создание рандомного числа
