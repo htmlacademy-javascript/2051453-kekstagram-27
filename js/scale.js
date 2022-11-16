@@ -38,5 +38,13 @@ const onBiggerButtonClick = () => {
   scaleImage(newValue);
 };
 
+// Сброс scale функцииm, чтобы сборосить машстабирование фотографии
+
+const resetScale = () => {
+  scaleImage();
+};
+
 smallerButton.addEventListener('click', onSmallerButtonClick);
 biggerButton.addEventListener('click', onBiggerButtonClick);
+
+export {resetScale};

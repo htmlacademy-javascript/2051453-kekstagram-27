@@ -21,11 +21,6 @@ const pristine = new Pristine(
     classTo: 'img-upload__field-wrapper',
     errorTextParent: 'img-upload__field-wrapper',
     errorTextClass: 'img-upload__field-wrapper__error',
-  },
-  uploadForm, {
-    classTo: 'img-upload__field-wrapper',
-    errorTextParent: 'img-upload__field-wrapper',
-    errorTextClass: 'img-upload__field-wrapper__error',
   }
 );
 

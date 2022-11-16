@@ -3,6 +3,8 @@ import {pristine} from './validation.js';
 import {hashtagField} from './validation.js';
 import {uploadTextArea} from './validation.js';
 import {uploadForm} from './validation.js';
+import { resetScale } from './scale.js';
+import { resetEffects } from './effects.js';
 
 // Поиск элемнтов модального окна редактирования картинки
 const uploadBox = document.querySelector('.img-upload__overlay');
@@ -24,6 +26,8 @@ const onPopupEscDown = (evt) => {
 function openUserModal () {
   uploadForm.reset();
   pristine.reset();
+  resetScale();
+  resetEffects();
   uploadBox.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
   document.addEventListener('keydown', onPopupEscDown);
