@@ -1,25 +1,17 @@
-// Найдем элементы DOM
-const image = document.querySelector('.img-upload__preview img');
-const form = document.querySelector('.img-upload__form');
-const sliderElement = document.querySelector('.effect-level__slider');
-const effectLevel = document.querySelector('.effect-level__value');
-
-// Записываем в объекты параметры эффектов
-
 const EFFECTS = [
   {
     name: 'none',
     min: 0,
     max: 100,
-    step: 1
-  },
-  {
+    step: 1,
+    unit:''
+  }, {
     name: 'chrome',
     style: 'grayscale',
     min: 0,
     max: 1,
     step: 0.1,
-    unit: '',
+    unit: ''
   },
   {
     name: 'sepia',
@@ -55,18 +47,20 @@ const EFFECTS = [
   },
 ];
 
-// Записываем значение по умолчанию это без эффектов
-const DEFAULT_EFFECT = EFFECTS[0];
-// Записываем изменяемое значение переменной для выбора разных эффектов
-let chosenEffect = DEFAULT_EFFECT;
+const imgUploadSection = document.querySelector('.img-upload__overlay');
+const form = document.querySelector('.img-upload__form');
+const slider = imgUploadSection.querySelector('.effect-level__slider');
+const photoPreview = form.querySelector('.img-upload__preview img');
+const effectLevel = form.querySelector('.effect-level__value');
+const depthSliderEffect = form.querySelector('.img-upload__effect-level');
 
-// Записываем функция возращающую к начальному эффекту
-const isDefault = () => chosenEffect === DEFAULT_EFFECT;
+const noneEffect = EFFECTS[0];
+let chosenEffect = noneEffect;
+const isDefault = () => chosenEffect === noneEffect;
 
-// Функция работы со слайдером
 const updateSlider = () => {
-  sliderElement.classList.remove('hidden');
-  sliderElement.noUiSlider.updateOptions({
+  depthSliderEffect.classList.remove('hidden');
+  slider.noUiSlider.updateOptions({
     range: {
       min: chosenEffect.min,
       max: chosenEffect.max,
@@ -74,57 +68,49 @@ const updateSlider = () => {
     step: chosenEffect.step,
     start: chosenEffect.max,
   });
-
   if (isDefault()) {
-    sliderElement.classList.add('hidden');
+    depthSliderEffect.classList.add('hidden');
   }
 };
 
-// Колбэк для нажатия на радио-кнопку
-const onFormChange = (evt) => {
+const onFormChangeEffect = (evt) => {
   if (!evt.target.classList.contains('effects__radio')) {
     return;
   }
-  chosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value); // Находит первый элемент удовлетворяющий условию
+  chosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
   updateSlider();
 };
 
-// Колбэк для слайдера
 const onSliderUpdate = () => {
-  image.style.filter = 'none';
-  image.className = '';
+  const sliderValue = slider.noUiSlider.get();
+  photoPreview.style.filter = 'none';
+  photoPreview.className = '';
   effectLevel.value = '';
   if (isDefault()) {
     return;
   }
-  const sliderValue = sliderElement.noUiSlider.get();
-  image.style.filter = `${chosenEffect.style}(${sliderValue}${chosenEffect.unit})`;
-  image.classList.add(`effects__preview--${chosenEffect.name}`);
+  photoPreview.style.filter = `${chosenEffect.style}(${sliderValue}${chosenEffect.unit})`;
+  photoPreview.classList.add(`effects__preview--${chosenEffect.name}`);
   effectLevel.value = sliderValue;
 };
 
-// Функция сброса эффектов
 const resetEffects = () => {
-  chosenEffect = DEFAULT_EFFECT;
+  chosenEffect = noneEffect;
   updateSlider();
 };
 
-// Создание слайдера
-noUiSlider.create(sliderElement, {
+window.noUiSlider.create(slider, {
   range: {
-    min: DEFAULT_EFFECT.min,
-    max:DEFAULT_EFFECT.max,
+    min: noneEffect.min,
+    max: noneEffect.max,
   },
-  start: DEFAULT_EFFECT.max,
-  step: DEFAULT_EFFECT.step,
-  connect: 'lower',
+  start: noneEffect.max,
+  step: noneEffect.step,
+  connect: 'lower'
 });
 updateSlider();
 
-//
-form.addEventListener('change', onFormChange);
-sliderElement.noUiSlider.on('update', onSliderUpdate);
+form.addEventListener('change', onFormChangeEffect);
+slider.noUiSlider.on('update', onSliderUpdate);
 
 export {resetEffects};
-
-
