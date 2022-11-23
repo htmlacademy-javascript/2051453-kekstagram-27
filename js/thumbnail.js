@@ -22,7 +22,7 @@ const renderMiniPhotos = (thumbnails) => {
     const thumbnailsPicture = pictureTemplate.cloneNode(true);
     thumbnailsPicture.querySelector('.picture__img').src = url;
     thumbnailsPicture.querySelector('.picture__likes').textContent = likes;
-    thumbnailsPicture.querySelector('.picture__comments').textContent = comments;
+    thumbnailsPicture.querySelector('.picture__comments').textContent = comments.length;
 
     // События на коммент
     thumbnailsPicture.querySelector('.picture__img').addEventListener('click', () => {

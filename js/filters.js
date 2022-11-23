@@ -2,13 +2,13 @@ import { sortingDiscussed, getRandomArray } from './utils.js';
 
 // Поиск кнопок
 const filterForm = document.querySelector('.img-filters');
-const currentFilter = document.querySelector('.img-filters__button--active');
 
 // Константа для случайных фоток
 const RANDOM_DEFAULT = 10;
 
 // Сб для выбора фильтра
 const toggleFilter = (button) => {
+  const currentFilter = document.querySelector('.img-filters__button--active');
   currentFilter.classList.remove('img-filters__button--active');
   button.classList.add('img-filters__button--active');
 };

@@ -1,72 +1,95 @@
-// Объявление переменных
+import { isEscapeKey } from './utils.js';
 
-const commentLoader = document.querySelector('.comments-loader');
-const commentCounter = document.querySelector('.social__comment-count');
-const commnetTemplate = document.querySelector('.social__comment');
-const bigPicture = document.querySelector('.big-picture');
-const closeButton = bigPicture.querySelector('.big-picture__cancel');
+const ONE_STEP = 5;
+const START_CYCLE_FOR_COMMENT = 0;
+let uploadMaximumComment = ONE_STEP;
+let buttonMaximumComment = ONE_STEP;
 const body = document.querySelector('body');
+const bigPicture = document.querySelector('.big-picture');
+const bigPreview = document.querySelector('.big-picture__img').querySelector('img');
+const bigLikes = bigPicture.querySelector('.likes-count');
+const selectorComments = bigPicture.querySelector('.social__comments');
+const commentTemplate = bigPicture.querySelector('.social__comment');
+const bigComments = bigPicture.querySelector('.comments-count');
+const bigDescription = bigPicture.querySelector('.social__caption');
+const commentCount = bigPicture.querySelector('.social__comment-count');
+const buttonLoader = bigPicture.querySelector('.comments-loader');
+const spanComment = commentCount.querySelector('.comments-visible');
+const cancelButtonBigPhoto = bigPicture.querySelector('.big-picture__cancel');
 
-// Событие удаления попапа
-
-const onPopupEscDown = (evt) => {
-  if (evt.key === 'Escape') {
-    bigPicture.classList.add('hidden');
-    body.classList.remove('modal-open');
-
-    // Выход из полной прослушки
-    document.removeEventListener('keydown', onPopupEscDown);
+const hiddenUploadComment = () => {
+  if(parseInt(bigComments.firstChild.textContent, Number) <= parseInt(spanComment.textContent, Number) ){
+    spanComment.textContent = bigComments.lastChild.textContent;
+    buttonLoader.classList.add('hidden');
   }
 };
 
-// Функция добавление в DOM комментария
+const createComment = (nameComment, startIndex, endIndex) => {
+  const commentListFragment = document.createDocumentFragment();
+  for(let i = startIndex; i < endIndex; i++){
+    const newComment = commentTemplate.cloneNode(true);
+    const imgComments = newComment.querySelector('.social__picture');
+    const textComments = newComment.querySelector('.social__text');
 
-const createComment = (comment, template) => {
-  const newComment = template.cloneNode(true);
-  const avatar = newComment.querySelector('.social__picture');
-  avatar.src = comment.avatar;
-  avatar.alt = comment.name;
-  newComment.querySelector('.social__text').textContent = comment.message;
-
-  return newComment;
+    imgComments.src = nameComment.comments[i].avatar;
+    imgComments.alt = nameComment.comments[i].name;
+    textComments.textContent = nameComment.comments[i].message;
+    commentListFragment.append(newComment);
+  }
+  return commentListFragment;
 };
 
-// Функция создания комментария
+const renderBigPhoto = (picture) =>{
+  bigPicture.classList.remove('hidden');
+  body.classList.add('modal-open');
+  selectorComments.innerHTML = '';
 
-const addPictureEvenHandler = (picture, pictureData) => {
-  picture.addEventListener('click', () => {
-    bigPicture.classList.remove('hidden'); // Удаляем класс чтобы открылся попап
-    bigPicture.querySelector('.big-picture__img').querySelector('img').src = pictureData.url;
-    bigPicture.querySelector('.likes-count').textContent = pictureData.likes;
-    bigPicture.querySelector('.social__caption').textContent = pictureData.description;
-    bigPicture.querySelector('.comments-count').textContent = pictureData.comments.length;
+  bigPreview.src = picture.url;
+  bigLikes.textContent = picture.likes;
+  bigComments.textContent = picture.comments.length;
+  bigDescription.textContent = picture.description;
 
-    // Работа с комментариями
-    const comments = bigPicture.querySelector('.social__comments');
+  hiddenUploadComment();
 
-    // Чистим содержимое
-    comments.innerHTML = '';
+  if(bigComments.textContent < ONE_STEP){
+    uploadMaximumComment = bigComments.textContent;
+  }
 
-    // Метод для добавления элементов в DOM
-    pictureData.comments.forEach((comment) => {
-      comments.appendChild(createComment(comment, commnetTemplate));
-    });
+  selectorComments.append(createComment(picture, START_CYCLE_FOR_COMMENT, uploadMaximumComment));
 
-    // Скрываем попап
-    commentCounter.classList.add('hidden');
-    commentLoader.classList.add('hidden');
-    document.body.classList.add('modal-open');
+  const onClickUploadCommnent = (evt) => {
+    evt.preventDefault();
+    const numberCurrentComment = parseInt(spanComment.textContent, Number);
+    if(bigComments.textContent - spanComment.textContent < ONE_STEP){
+      buttonMaximumComment = bigComments.textContent - spanComment.textContent;
+    }
 
-    document.addEventListener('keydown', onPopupEscDown);
+    selectorComments.append(createComment(picture, numberCurrentComment, numberCurrentComment + buttonMaximumComment));
+    spanComment.textContent = numberCurrentComment + ONE_STEP;
+    hiddenUploadComment();
+  };
 
+  buttonLoader.addEventListener('click', onClickUploadCommnent);
+
+  const closeBigPhoto = () => {
+    bigPicture.classList.add('hidden');
+    body.classList.remove('modal-open');
+    buttonMaximumComment = ONE_STEP;
+    uploadMaximumComment = ONE_STEP;
+    buttonLoader.removeEventListener('click', onClickUploadCommnent);
+    spanComment.textContent = ONE_STEP;
+    buttonLoader.classList.remove('hidden');
+  };
+
+  cancelButtonBigPhoto.addEventListener('click', () => {
+    closeBigPhoto();
+  });
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      closeBigPhoto();
+    }
   });
 };
 
-// Событие - закрытие попапа
-
-closeButton.addEventListener('click', () => {
-  bigPicture.classList.add('hidden');
-  body.classList.remove('modal-open');
-});
-
-export { addPictureEvenHandler };
+export { renderBigPhoto };

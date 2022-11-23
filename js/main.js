@@ -1,11 +1,3 @@
-<<<<<<< Updated upstream
-import './rendering.js';
-import './big-photo.js';
-import './img-upload.js';
-import './validation.js';
-import './scale.js';
-import './effects.js';
-=======
 import { renderMiniPhotos } from './thumbnail.js';
 import './big-photo.js';
 import './user-form.js';
@@ -23,4 +15,3 @@ getData((data) => {
   showErrorAlert('Не удалось загрузить изображения.');
 }
 );
->>>>>>> Stashed changes
