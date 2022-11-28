@@ -1,5 +1,5 @@
 import { showSuccessMessage, showUploadErrorMessage } from './comments.js';
-import { hideForm } from './user-form.js';
+import { hideForm} from './user-form.js';
 
 // Функция получения данных с сервера
 const getData = (onSuccess, onFail) => {
@@ -14,7 +14,7 @@ const getData = (onSuccess, onFail) => {
 // Функция отправки данных с сервера
 const sendData = (data) => {
   fetch(
-    'https://27.javascript.pages.academy/kekstagram',
+    'https://127.javascript.pages.academy/kekstagram',
     {
       method: 'POST',
       body: data,

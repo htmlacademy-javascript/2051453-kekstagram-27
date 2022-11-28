@@ -1,4 +1,4 @@
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+import { FILE_TYPES } from './utils';
 
 const fileChooser = document.querySelector('.upload input[type=file]');
 const preview = document.querySelector('.setup-user-pic');
