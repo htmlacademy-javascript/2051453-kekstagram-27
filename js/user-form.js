@@ -1,4 +1,4 @@
-import { checkStringLength, isEscapeKey } from './utils.js';
+import { checkStringLength, isEscapeKey, FILE_TYPES } from './utils.js';
 import { resetScale } from './scale.js';
 import { resetEffects } from './effects.js';
 import { sendData } from './api.js';
@@ -6,7 +6,6 @@ import { sendData } from './api.js';
 const MAX_LENGTH_COMMENT = 140;
 const MAX_COUNT_HASHTAGS = 5;
 const MAX_LENGTH_HASHTAG = 20;
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const body = document.querySelector('body');
 const uploadForm = document.querySelector('#upload-select-image');
@@ -73,7 +72,9 @@ const hideForm = () => {
 const onEscKeyDown = (evt) => {
   if (isEscapeKey(evt) && !checkingForFocus()) {
     evt.preventDefault();
-    hideForm();
+    if(document.querySelector('.error') === null){
+      hideForm();
+    }
   }
 };
 
@@ -117,3 +118,4 @@ cancelButtonRenderPicture.addEventListener('click', oncloselButtonClick);
 form.addEventListener('submit', onFormSubmit);
 
 export { hideForm };
+export {onEscKeyDown};

@@ -1,3 +1,4 @@
+export const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 // Сб для вывода модальног окна после отпраки данных
 const showErrorAlert = (message) => {
   const alertContainer = document.createElement('div');
